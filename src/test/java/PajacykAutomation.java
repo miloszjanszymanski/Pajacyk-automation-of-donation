@@ -23,6 +23,7 @@ public class PajacykAutomation{
     }
 
     @Test
+    @DisplayName("Verifies that main page is displayed - by title")
     public void checkTitle() {
         driver.get(mainPage);
         String mainPageExpectedTitle = "Pajacyk – Pajacyk od wielu lat dożywia dzieci. Pamiętaj, że kliknięcie w brzuszek, to pierwszy krok, by pomóc dzieciom.";
@@ -31,6 +32,7 @@ public class PajacykAutomation{
     }
 
     @Test
+    @DisplayName("Verifies that after clicking on toy clown proper message is displayed")
     public void checkClickPajacyk() {
         driver.get(mainPage);
         WebElement donateButton = driver.findElement(By.className("pajacyk__clickbox"));
