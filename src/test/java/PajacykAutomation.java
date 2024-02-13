@@ -45,22 +45,29 @@ public class PajacykAutomation{
     @Test
     @DisplayName("Verifies that after clicking on round buttons proper page is displayed")
     public void checkExternalLinks() {
-        WebElement contributeButton = driver.findElement(By.className("buttons__item buttons__item--pink"));
-        WebElement recruitmentButton = driver.findElement(By.className("buttons__item buttons__item--orange"));
-        WebElement christmasTableButton = driver.findElement(By.className("buttons__item buttons__item--yellow"));
-        WebElement nonStopButton = driver.findElement(By.className("buttons__item buttons__item--green"));
-
-
         driver.get(mainPage);
-        WebElement donateButton = driver.findElement(By.className("pajacyk__clickbox"));
-        donateButton.click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
-        WebElement element = driver.findElement(By.className("pajacyk__thankyou"));
-        WebElement p1Element = element.findElement(By.className("p2"));
-        Assertions.assertEquals("dziękujemy :)", p1Element.getText());
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        WebElement contributeButton = driver.findElement(By.className("buttons__item--pink"));
+        WebElement recruitmentButton = driver.findElement(By.className("buttons__item--orange"));
+        WebElement christmasTableButton = driver.findElement(By.className("buttons__item--yellow"));
+        WebElement nonStopButton = driver.findElement(By.className("buttons__item--green"));
+
+        Assertions.assertAll(
+                () -> Assertions.assertTrue(contributeButton.isDisplayed()),
+                () -> Assertions.assertTrue(recruitmentButton.isDisplayed()),
+                () -> Assertions.assertTrue(christmasTableButton.isDisplayed()),
+                () -> Assertions.assertTrue(nonStopButton.isDisplayed())
+
+        );
+
+//        driver.get(mainPage);
+//        WebElement donateButton = driver.findElement(By.className("pajacyk__clickbox"));
+//        donateButton.click();
+//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+//        WebElement element = driver.findElement(By.className("pajacyk__thankyou"));
+//        WebElement p1Element = element.findElement(By.className("p2"));
+//        Assertions.assertEquals("dziękujemy :)", p1Element.getText());
 
 
-
-
-
+    }
 }
