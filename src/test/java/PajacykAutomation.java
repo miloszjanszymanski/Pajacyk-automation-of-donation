@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import java.time.Duration;
 
+
 public class PajacykAutomation{
     WebDriver driver;
     String mainPage = "https://www.pajacyk.pl/";
@@ -52,13 +53,36 @@ public class PajacykAutomation{
         WebElement christmasTableButton = driver.findElement(By.className("buttons__item--yellow"));
         WebElement nonStopButton = driver.findElement(By.className("buttons__item--green"));
 
+
+//
+//        WebElement christmasTablePage = driver.findElement(By.className("wrapper--full"));
+//        WebElement nonStopPage = driver.findElement(By.id("form-statut"));
+
         Assertions.assertAll(
                 () -> Assertions.assertTrue(contributeButton.isDisplayed()),
                 () -> Assertions.assertTrue(recruitmentButton.isDisplayed()),
                 () -> Assertions.assertTrue(christmasTableButton.isDisplayed()),
                 () -> Assertions.assertTrue(nonStopButton.isDisplayed())
-
         );
+        //checking first round button ,,Wpłać,,
+        contributeButton.click();
+        WebElement contirbutePage = driver.findElement(By.id("form-statut"));
+        Assertions.assertTrue(contirbutePage.isDisplayed());
+
+
+        //checking second round button ,,Nabór,,
+        recruitmentButton.click();
+        WebElement recruitmentPage = driver.findElement(By.className("wrapper--full"));
+
+
+        System.out.println(driver.getPageSource());
+//        if(driver.getPageSource().contains("Text to check")){
+//            System.out.println("Text is present");
+//        }else{
+//            System.out.println("Text is absent");
+//        }
+
+        //element_present = exprected_conditions.presence_of_element_located((By.XPATH, "//[@id='myDiv']"))
 
 //        driver.get(mainPage);
 //        WebElement donateButton = driver.findElement(By.className("pajacyk__clickbox"));
@@ -69,5 +93,6 @@ public class PajacykAutomation{
 //        Assertions.assertEquals("dziękujemy :)", p1Element.getText());
 
 
-    }
-}
+    }}
+
+
