@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.time.Duration;
 
 
-public class PajacykAutomation{
+public class PajacykAutomation {
     WebDriver driver;
     String mainPage = "https://www.pajacyk.pl/";
 
@@ -19,7 +19,7 @@ public class PajacykAutomation{
     }
 
     @AfterEach
-    public void quitDriver(){
+    public void quitDriver() {
         driver.quit();
     }
 
@@ -29,7 +29,7 @@ public class PajacykAutomation{
         driver.get(mainPage);
         String mainPageExpectedTitle = "Pajacyk – Pajacyk od wielu lat dożywia dzieci. Pamiętaj, że kliknięcie w brzuszek, to pierwszy krok, by pomóc dzieciom.";
         String mainPageActualTitle = driver.getTitle();
-        Assertions.assertEquals(mainPageExpectedTitle,mainPageActualTitle,"Actual title is different than expected title");
+        Assertions.assertEquals(mainPageExpectedTitle, mainPageActualTitle, "Actual title is different than expected title");
     }
 
     @Test
@@ -42,57 +42,23 @@ public class PajacykAutomation{
         WebElement element = driver.findElement(By.className("pajacyk__thankyou"));
         WebElement p1Element = element.findElement(By.className("p2"));
         Assertions.assertEquals("dziękujemy :)", p1Element.getText());
-}
+    }
+
     @Test
-    @DisplayName("Verifies that after clicking on round buttons proper page is displayed")
+    @DisplayName("Verifies that after clicking on round button 'Wesprzyj' and on the bottom proper page is displayed")
     public void checkExternalLinks() {
         driver.get(mainPage);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        WebElement contributeButton = driver.findElement(By.className("buttons__item--pink"));
-        WebElement recruitmentButton = driver.findElement(By.className("buttons__item--orange"));
-        WebElement christmasTableButton = driver.findElement(By.className("buttons__item--yellow"));
-        WebElement nonStopButton = driver.findElement(By.className("buttons__item--green"));
-
-
-//
-//        WebElement christmasTablePage = driver.findElement(By.className("wrapper--full"));
-//        WebElement nonStopPage = driver.findElement(By.id("form-statut"));
-
-        Assertions.assertAll(
-                () -> Assertions.assertTrue(contributeButton.isDisplayed()),
-                () -> Assertions.assertTrue(recruitmentButton.isDisplayed()),
-                () -> Assertions.assertTrue(christmasTableButton.isDisplayed()),
-                () -> Assertions.assertTrue(nonStopButton.isDisplayed())
-        );
-        //checking first round button ,,Wpłać,,
+        final WebElement contributeButton = driver.findElement(By.className("buttons__item--pink"));
         contributeButton.click();
-        WebElement contirbutePage = driver.findElement(By.id("form-statut"));
-        Assertions.assertTrue(contirbutePage.isDisplayed());
+        String expectedContributePageUrl = "https://www.pajacyk.pl/wesprzyj/";
+        String actualContributePageUrl = driver.getCurrentUrl();
+        ;
+        Assertions.assertEquals(expectedContributePageUrl, actualContributePageUrl, "Actual contribute page is different than expected");
+    }
+
+    
+    //element_present = exprected_conditions.presence_of_element_located((By.XPATH, "//[@id='myDiv']"))
 
 
-        //checking second round button ,,Nabór,,
-        recruitmentButton.click();
-        WebElement recruitmentPage = driver.findElement(By.className("wrapper--full"));
-
-
-        System.out.println(driver.getPageSource());
-//        if(driver.getPageSource().contains("Text to check")){
-//            System.out.println("Text is present");
-//        }else{
-//            System.out.println("Text is absent");
-//        }
-
-        //element_present = exprected_conditions.presence_of_element_located((By.XPATH, "//[@id='myDiv']"))
-
-//        driver.get(mainPage);
-//        WebElement donateButton = driver.findElement(By.className("pajacyk__clickbox"));
-//        donateButton.click();
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
-//        WebElement element = driver.findElement(By.className("pajacyk__thankyou"));
-//        WebElement p1Element = element.findElement(By.className("p2"));
-//        Assertions.assertEquals("dziękujemy :)", p1Element.getText());
-
-
-    }}
-
-
+}
