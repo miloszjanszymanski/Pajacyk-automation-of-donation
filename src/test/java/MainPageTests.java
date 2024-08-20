@@ -39,5 +39,16 @@ public class MainPageTests extends BaseTests {
         WebElement p1Element = element.findElement(By.className("p2"));
         Assertions.assertEquals("dziękujemy :)", p1Element.getText());
     }
+    @Test
+    @DisplayName("Verifies that after clicking on toy clown proper message is displayed")
+    public void checkClickPajacykTest() {
+        bot.go();
+        WebElement donateButton = driver.findElement(By.className("pajacyk__clickbox"));
+        donateButton.click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+        WebElement element = driver.findElement(By.className("pajacyk__thankyou"));
+        WebElement p1Element = element.findElement(By.className("p2"));
+        Assertions.assertEquals("dziękujemy :)", p1Element.getText());
+    }
 
 }
