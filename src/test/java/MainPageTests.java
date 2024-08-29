@@ -45,5 +45,27 @@ public class MainPageTests extends BaseTests {
         String actualContributePageUrl = driver.getCurrentUrl();
         Assertions.assertEquals(expectedContributePageUrl, actualContributePageUrl, "Actual contribute page is different than expected");
     }
+    @Test
+    @DisplayName("Test check that font size switcher is working properly")
+    public void checkFontSizeSwitcher() {
+        bot.go();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        WebElement fontSizeButton1 = driver.findElement(By.className("font1"));
+        WebElement fontSizeButton2 = driver.findElement(By.className("font2"));
+        WebElement fontSizeButton3 = driver.findElement(By.className("font3"));
+        WebElement mainPageBarFont = driver.findElement(By.id("menu-item-43"));
 
-}
+        //check that default font size is the smallest
+        String defaultFontSize = mainPageBarFont.getCssValue("font-size");
+        int defaultEditedFontSize = Integer.parseInt(defaultFontSize.replaceAll("px", ""));
+        System.out.println(defaultEditedFontSize);
+        fontSizeButton2.click();
+        driver.navigate().refresh();
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
+        String xxx = mainPageBarFont.getCssValue("font-size");
+        int mediumEditedFontSize = Integer.parseInt(xxx.replaceAll("px", ""));
+        System.out.println(mediumEditedFontSize);
+
+    }
+
+    }
