@@ -67,5 +67,15 @@ public class MainPageTests extends BaseTests {
         System.out.println(mediumEditedFontSize);
 
     }
+    @Test
+    @DisplayName("Test check that proper page is displayed after click Wesprzyj eng. donate")
+    public void checkWesprzyjPageIsDisplayed() {
 
     }
+    @Test
+    @DisplayName("Test check that external page is displayed after click Wesprzyj eng. donate at the bottom")
+    public void checkSiePomagaPageIsDisplayed() {
+
+    }
+    }
+
