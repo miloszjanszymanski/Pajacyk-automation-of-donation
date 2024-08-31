@@ -77,5 +77,10 @@ public class MainPageTests extends BaseTests {
     public void checkSiePomagaPageIsDisplayed() {
 
     }
+    @Test
+    @DisplayName("Test check that external shop page is displayed after click Wesprzyj eng. donate at the top")
+    public void checkPAHShopPageIsDisplayed() {
+
+    }
     }
 
