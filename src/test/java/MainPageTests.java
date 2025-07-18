@@ -1,86 +1,48 @@
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import java.time.Duration;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-public class MainPageTests extends BaseTests {
+import org.junit.jupiter.api.Assertions;
 
-    String mainPageExpectedTitle = "Pajacyk – Pajacyk od wielu lat dożywia dzieci. Pamiętaj, że kliknięcie w brzuszek, to pierwszy krok, by pomóc dzieciom.";
-    String thankYouClass = "pajacyk__thankyou";
-    String divergentTitle = "Actual title is different than expected title";
-    String thankYouXpath = ".//section[contains(@class, 'pajacyk__thankyou')]//p[2]";
-    String thankYouText = "Dziękujemy!!!";
+public class MainPageTests extends BaseTests {
+    private final String mainPageExpectedTitle = "Pajacyk – Pajacyk od wielu lat dożywia dzieci. Pamiętaj, że kliknięcie w brzuszek, to pierwszy krok, by pomóc dzieciom.";
+    private final String thankYouText = "Dziękujemy!!!";
+    private final String expectedContributePageUrl = "https://www.pajacyk.pl/wesprzyj/";
 
     @Test
     @DisplayName("Verifies that main page is displayed - by title")
     public void checkTitle() {
+        MainPage mainPage = new MainPage(driver, bot, wait);
         bot.go();
-
-        String title = driver.getTitle();
-        Assertions.assertEquals(mainPageExpectedTitle, title, divergentTitle);
+        Assertions.assertEquals(mainPageExpectedTitle, mainPage.getTitle(), "Actual title is different than expected title");
     }
-
     @Test
     @DisplayName("Verifies that after clicking on toy clown proper message is displayed")
     public void checkClickPajacykTest() {
+        MainPage mainPage = new MainPage(driver, bot, wait);
         bot.go();
-        WebElement donateButton = driver.findElement(By.className(thankYouClass));
-        donateButton.click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className(thankYouClass)));
-        WebElement thankYouLocator = driver.findElement(By.xpath(thankYouXpath));
-        System.out.println(thankYouLocator.getText());
-        Assertions.assertEquals("Dziękujemy!!!", thankYouLocator.getText());
+        mainPage.clickPajacyk();
+        Assertions.assertEquals(thankYouText, mainPage.getThankYouMessage());
     }
     @Test
-    @DisplayName("Verifies that after clicking on round button 'Wesprzyj' and on the bottom proper page is displayed")
+    @DisplayName("Verifies that after clicking on round button 'Wesprzyj' proper page is displayed")
     public void checkExternalLinks() {
+        MainPage mainPage = new MainPage(driver, bot, wait);
         bot.go();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        final WebElement contributeButton = driver.findElement(By.className("buttons__item--pink"));
-        contributeButton.click();
-        String expectedContributePageUrl = "https://www.pajacyk.pl/wesprzyj/";
-        String actualContributePageUrl = driver.getCurrentUrl();
-        Assertions.assertEquals(expectedContributePageUrl, actualContributePageUrl, "Actual contribute page is different than expected");
+        mainPage.clickContribute();
+        ContributePage contributePage = new ContributePage(driver);
+        Assertions.assertEquals(expectedContributePageUrl, contributePage.getCurrentUrl(),
+                "Actual contribute page is different than expected");
     }
     @Test
     @DisplayName("Test check that font size switcher is working properly")
     public void checkFontSizeSwitcher() {
+        MainPage mainPage = new MainPage(driver, bot, wait);
         bot.go();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        WebElement fontSizeButton1 = driver.findElement(By.className("font1"));
-        WebElement fontSizeButton2 = driver.findElement(By.className("font2"));
-        WebElement fontSizeButton3 = driver.findElement(By.className("font3"));
-        WebElement mainPageBarFont = driver.findElement(By.id("menu-item-43"));
-
-        //check that default font size is the smallest
-        String defaultFontSize = mainPageBarFont.getCssValue("font-size");
-        int defaultEditedFontSize = Integer.parseInt(defaultFontSize.replaceAll("px", ""));
-        System.out.println(defaultEditedFontSize);
-        fontSizeButton2.click();
+        String defaultFontSize = mainPage.getMainMenuFontSize();
+        int defaultFontSizeValue = Integer.parseInt(defaultFontSize.replaceAll("px", ""));
+        mainPage.setFontSize(2);
         driver.navigate().refresh();
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
-        String xxx = mainPageBarFont.getCssValue("font-size");
-        int mediumEditedFontSize = Integer.parseInt(xxx.replaceAll("px", ""));
-        System.out.println(mediumEditedFontSize);
-
+        String newFontSize = mainPage.getMainMenuFontSize();
+        int newFontSizeValue = Integer.parseInt(newFontSize.replaceAll("px", ""));
+        Assertions.assertTrue(newFontSizeValue > defaultFontSizeValue, "Font size should increase");
     }
-    @Test
-    @DisplayName("Test check that proper page is displayed after click Wesprzyj eng. donate")
-    public void checkWesprzyjPageIsDisplayed() {
-
-    }
-    @Test
-    @DisplayName("Test check that external page is displayed after click Wesprzyj eng. donate at the bottom")
-    public void checkSiePomagaPageIsDisplayed() {
-
-    }
-    @Test
-    @DisplayName("Test check that external shop page is displayed after click Wesprzyj eng. donate at the top")
-    public void checkPAHShopPageIsDisplayed() {
-
-    }
-    }
-
+}
