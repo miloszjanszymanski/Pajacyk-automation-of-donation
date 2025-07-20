@@ -8,8 +8,8 @@ import java.time.Duration;
 
 public class BaseTests {
     protected WebDriver driver;
-    protected ActionBot bot;
     protected WebDriverWait wait;
+    protected String baseURL = "https://www.pajacyk.pl";
 
     @BeforeEach
     public void setup() {
@@ -17,9 +17,8 @@ public class BaseTests {
         options.addArguments("--disable-search-engine-choice-screen");
         driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        String baseURL = "https://www.pajacyk.pl";
-        bot = new ActionBot(driver, baseURL);
     }
+
     @AfterEach
     public void quitDriver() {
         if (driver != null) {
